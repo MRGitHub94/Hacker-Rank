@@ -50,3 +50,32 @@ Yes
 We perform 4 deletions to reduce string s to an empty string. Next, we perform 3
 append operations. Because we were able to convert s to t by performing exactly 
 7 operations, we print Yes. """
+
+#!/bin/python
+
+import sys
+
+
+s = raw_input().strip()
+t = raw_input().strip()
+k = int(raw_input().strip())
+
+#two methods that can be performed
+.append()
+.pop()
+#initialize the count variables, these need to equal k or less
+count_remove = 0
+count_add = 0 
+ 
+# w = zip(s,t) when the [i][i+1] aren't the same we want to know
+# what index in w it is 
+
+
+
+
+
+
+
+
+
+
