@@ -70,6 +70,14 @@ count_add = 0
 # w = zip(s,t) when the [i][i+1] aren't the same we want to know
 # what index in w it is 
 
+i = 0
+for letter in s:
+        if letter[i] == t[i]:
+            i += 1
+        else;
+            return i
+
+
 
 
 
