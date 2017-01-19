@@ -70,7 +70,7 @@ def makeIntoSeconds(arr):
 
 def meetingTime(timesA, timesB, dur):
     for a in makeIntoSeconds(timesA):
-        # check if the block has sufficient duration
+        # check if the timesa block has sufficient duration
         if a[1] - a[0] >= dur:
             # iterate through b
              for b in makeIntoSeconds(timesB):
