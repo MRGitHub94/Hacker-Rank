@@ -26,13 +26,19 @@
 
 # The array contains only one unique 2 so we print it
 
-from collections import Counter
+# from collections import Counter
+
+# def lonely_integer(a):
+#     unique_value = Counter(a)
+#     for key, value in unique_value.items():
+#         if value == 1:
+#             return key
 
 def lonely_integer(a):
-    unique_value = Counter(a)
-    for key, value in unique_value.items():
-        if value == 1:
-            return key
+    unique_num = 0
+    for num in a:
+        unique_num ^= num
+    return unique_num
 
 
 print lonely_integer([1, 1, 2])
