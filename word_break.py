@@ -35,8 +35,8 @@ def segment_string_recursive(str_input, str_dict):
 
 # An Efficient Solution - Dynamic Programming 
 
-def segment_string_dynamic(str_input, str_dict):
-    if str_input in str_dict:
-        return str_input
-    if str_dict[str_input]  
+# def segment_string_dynamic(str_input, str_dict):
+#     if str_input in str_dict:
+#         return str_input
+#     if str_dict[str_input]  
 
