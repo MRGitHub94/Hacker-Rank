@@ -13,21 +13,21 @@
 # output: [1,1]
 
 
-def find_range(input_list,input_number):
-    output = []
-    for index, num in enumerate(input_list): 
-        if index == input_number:
-            output.append(num)
-    return output
+# def find_range(input_list,input_number):
+#     output = []
+#     for index, num in enumerate(input_list): 
+#         if index == input_number:
+#             output.append(num)
+#     return output
 
-# class Range(object):
-#     def __init__(self):
-#         self.lower_bound = -1
-#         self.upper_bound = -1
+class Range(object):
+    def __init__(self):
+        self.lower_bound = -1
+        self.upper_bound = -1
     
-#     def __init__(self,lower_bound,upper_bound):
-#         self.lower_bound = lower_bound
-#         self.upper_bound = upper_bound
+    def __init__(self,lower_bound,upper_bound):
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
 
 def find_range(input_list,input_number):
     first = 0
