@@ -18,7 +18,7 @@ def flip_horizontal_axis(matrix):
     i = 0
     # keep the loop running while halfway through the num of rows
     while i <= r/2:
-        # here's a new variable too
+        # inner loop iterator
         j = 0
         # keep this loop running while j is less than the num of cols
         while j <= c:
@@ -34,25 +34,43 @@ def flip_horizontal_axis(matrix):
 def flip_horizontal_axis(matrix):
     return matrix.reverse()
 
-def flip_vertical_axis(matrix):    
+def flip_vertical_axis(matrix):  
+    # instantiate variables  
     r = len(matrix) - 1
     c = len(matrix[0]) - 1
     temp = 0
     i = 0
+    # keep the loop running while i is less than the number of rows
     while i <= r:
+        # iterator for inner while loop 
         j = 0
+        # go through half the column length
         while j <= (c/2):
+            # swap
             temp = matrix[i][j]
             matrix[i][j] = matrix[i][c - j]
             matrix[i][c - j] = temp
+            # increment j
             j = j + 1
+        # increment i 
         i = i + 1
 
 def flip_vertical_axis(matrix):
     for i in range(len(matrix)):
         matrix[i] = matrix[i][::-1]
-        
+
 def flip_vertical_axis(matrix):
     for row in matrix:
         row.reverse()
     return matrix
+
+def transpose_matrix(matrix):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    temp = 0
+
+    for i in range(0, rows):
+        for j in range(i+1,cols):
+            temp = matrix[i][j]
+            matrix[i][j] = matrix[j][i]
+            matrix[j][i] = temp
