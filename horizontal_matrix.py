@@ -34,6 +34,7 @@ def flip_horizontal_axis(matrix):
 def flip_horizontal_axis(matrix):
     return matrix.reverse()
 
+# [0, 1]
 def flip_vertical_axis(matrix):  
     # instantiate variables  
     r = len(matrix) - 1
@@ -65,12 +66,15 @@ def flip_vertical_axis(matrix):
     return matrix
 
 def transpose_matrix(matrix):
+    # set variables 
     rows = len(matrix)
     cols = len(matrix[0])
     temp = 0
 
+    # iterate through the rows 
     for i in range(0, rows):
-        for j in range(i+1,cols):
+        # start at the i+1 until the cols 
+        for j in range(i+1, cols):
             temp = matrix[i][j]
             matrix[i][j] = matrix[j][i]
             matrix[j][i] = temp
