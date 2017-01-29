@@ -42,7 +42,14 @@ class SinglyLinkedList(object):
         if self.head == None:
             self.head = new_Node
         else:
-            # use hte setNext function to set the next node to be the head
+            # use the setNext function to set the next node to be the head
             new_Node.setNext(self.head)
             # make the new node the head
             self.head = new_Node
+
+
+  def insert_at_front(self,data):
+        new_node = Node()
+        new_node.setData(data)
+        new_node.setNext(self.head)
+        self.setHead(new_node)

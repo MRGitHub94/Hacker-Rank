@@ -73,8 +73,18 @@ def transpose_matrix(matrix):
 
     # iterate through the rows 
     for i in range(0, rows):
-        # start at the i+1 until the cols 
+        # start at the i+1 until the cols to compare across the diagonal
         for j in range(i+1, cols):
             temp = matrix[i][j]
             matrix[i][j] = matrix[j][i]
             matrix[j][i] = temp
+
+def transpose_matrix(m):
+    m[:] = map(list,zip(*m))
+
+transpose_matrix([[1,0], [0,0]])
+# >>> [[1,0],[0,0]]
+transpose_matrix([[1,0,1],[1,0,1],[1,0,1]])
+# >>> [[1,1,1],[0,0,0],[1,1,1]]
+transpose_matrix([[1,2,3],[4,5,6],[7,8,9]])
+# >>> [[1,4,7],[2,5,8],[3,6,9]]
