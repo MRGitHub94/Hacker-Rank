@@ -18,9 +18,13 @@ def max_gain(input_list):
     return 0 if max_gain < 0 else max_gain
 
 def max_gain(input_list):
+    # set the max to zero
     max = 0
+    # go through the length of the list
     for i in range(0, len(input_list)):
+        # go through range i until the rest of the list
         for j in range(i, len(input_list)):
+            # find the gain
             gain = input_list[j] - input_list[i]
             if gain > max:
                 max = gain

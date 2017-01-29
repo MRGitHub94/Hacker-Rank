@@ -32,7 +32,7 @@ def segment_string_recursive(str_input, str_dict):
                 return str_prefix + " " + str_seg_suffix
     return None
 #O(2^n)
-
+print segment_string("applepie")
 # An Efficient Solution - Dynamic Programming 
 
 # def segment_string_dynamic(str_input, str_dict):

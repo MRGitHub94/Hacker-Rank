@@ -59,3 +59,13 @@ def find_range(input_list,input_number):
     else:
         upper_bound = first-1
     return Range(lower_bound,upper_bound)
+
+    def find_range(input_list, input_number):
+        lst = []
+        for index, num in enumerate(input_list):
+            if num == input_number:
+                lst.append(index)
+        lst = sorted(lst)
+        first = lst[0]
+        last = lst[-1]
+        return Range(first, last)
