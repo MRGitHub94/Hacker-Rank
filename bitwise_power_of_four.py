@@ -8,3 +8,7 @@ def is_power_of_four(number):
         return (count%2 == 0)
 
     return False
+
+def is_power_of_four(number):
+    if(number == 0): return True
+    return (((number&(number-1))==0) and ((number&0x55555555)!=0))
