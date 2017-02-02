@@ -53,32 +53,86 @@ append operations. Because we were able to convert s to t by performing exactly
 
 #!/bin/python
 
-import sys
+# import sys
 
 
-s = raw_input().strip()
-t = raw_input().strip()
-k = int(raw_input().strip())
+# s = raw_input().strip()
+# t = raw_input().strip()
+# k = int(raw_input().strip())
 
 #two methods that can be performed
-.append()
-.pop()
-#initialize the count variables, these need to equal k or less
-count_remove = 0
-count_add = 0 
+# .append()
+# .pop()
+# #initialize the count variables, these need to equal k or less
+# count_remove = 0
+# count_add = 0 
  
 # w = zip(s,t) when the [i][i+1] aren't the same we want to know
 # what index in w it is 
 
-i = 0
-for letter in s:
-        if letter[i] == t[i]:
-            i += 1
-        else;
-            return i
+# i = 0
+# for letter in s:
+#         if letter[i] == t[i]:
+#             i += 1
+#         else:
+#             return i
+def append_and_delete(s, t, k):
+    # set variables to the lengths of the two parameter strings
+    length1 = len(s)
+    length2 = len(t)
 
+    # set length equal to the smaller of the lengths 
+    length = length1 if length1 <= length2 else length2
+    # set count to zero
+    count = 0
 
+    # go through the lenght 
+    for i in range(length):
+        # if the characters in the two strings are the same
+        if s[i] == t[i]:
+            # increase count
+            count += 1
+        else:
+            break
 
+    # deletions are the length of each string minus the count
+    deletions = length1 - count
+    additions = length2 - count
+
+    # operations is the sum of both the deletions and the additions
+    operations = deletions + additions
+
+    # check if string1 is the same as string 2
+    doubled = 0
+    if s == t:
+        doubled = (length1 * 2) + 1
+        print "doubled", doubled
+
+    # check these conditions for 'Yes'
+    if (((length1 == length2) or (length1 > length2)) and operations <= k):
+        print "length1", length1, "length2", length2
+        print "s.count(s[0])", s.count(s[0])
+        print "t.count(t[0])", t.count(t[0])
+        return 'Yes'
+    elif doubled == k or (s.count(s[0]) == length1 and t.count(t[0]) == length2):
+        print "doubled", doubled
+        print "length1", length1, "length2", length2
+        print "s.count(s[0])", s.count(s[0])
+        print "t.count(t[0])", t.count(t[0])
+        return 'Yes'
+    else:
+        print "length1", length1, "length2", length2
+        print "s.count(s[0])", s.count(s[0])
+        print "t.count(t[0])", t.count(t[0])
+        return 'No'
+
+print append_and_delete("hackerhappy", "hackerrank", 9)
+# hackerhappy
+# hackerrank
+# 9
+print append_and_delete("cat", "fat", 6)
+print append_and_delete("taco", "taci", 2)
+print append_and_delete("cactus", "cactus", 12)
 
 
 

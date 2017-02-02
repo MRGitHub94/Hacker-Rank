@@ -37,17 +37,31 @@
 from collections import Counter
     
 def get_shortest_unique_substring(s, t):
+    print "s", s
+    print "t", t
+    # instantiate the big string you need and the missing
     need, missing = Counter(t), len(t)
+    print "need", need
+    print "missing", missing
+    # all the iterators are set to 0
     i = I = J = 0
+    # new iterators to go through the little string
     for j, c in enumerate(s, 1):
+        # reduce the numbe of missing characters if the letter is in need
         missing -= need[c] > 0
+        print "c", c
+        print "missing", missing 
+        print "need[c]", need[c]
         need[c] -= 1
         if not missing:
             while i < j and need[s[i]] < 0:
+                print "i", i, "j", j
+                print "need[s[j]]", need[s[i]]
                 need[s[i]] += 1
                 i += 1
             if not J or j - i <= J - I:
                 I, J = i, j
+    print "s[I:J]", s[I:J]
     return s[I:J]
 
 # Solution without Counter
