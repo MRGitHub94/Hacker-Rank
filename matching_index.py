@@ -19,11 +19,13 @@ def matching_index(arr):
     begin = 0
     end = len(arr) - 1 # because list indices start at 0
     while begin <= end: 
+        # calculate the median
         i = int((begin+end)/2) # binary search start in the middle
         print "i", i, "arr[i]", arr[i], "arr[i] - i", arr[i] - i
         if (arr[i] - i < 0):
             begin = i + 1
             print "begin", begin
+        # this is the desired case     
         elif (arr[i] - i == 0):
             return i
         else:

@@ -53,3 +53,13 @@ class SinglyLinkedList(object):
         new_node.setData(data)
         new_node.setNext(self.head)
         self.setHead(new_node)
+
+    def reverse(self):
+        last = None
+        current = self.head
+        while current is not None:
+            next = current.getNext()
+            current.setNext(last)
+            last = current
+            current = next 
+        self.head = last
