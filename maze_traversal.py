@@ -62,3 +62,37 @@ def find_end(x, y):
     return False
 
 find_end(0, 0)
+
+
+map = [
+       [1, 2, 1],
+       [1, 50, 50],
+       [3, 4, 5]]
+
+def find_shortest_path(map):
+  copy_map = [[],[],[]] 
+  rows = len(map)
+  cols = len(map[0])
+  
+  # keeps a rolling sum 
+  copy_map = map[0][0]
+  
+  # go down the first col 1 1 3
+  for y in range(1, cols-1): 
+    # y-1 for index 0,0 
+    copy_map[0][y] = map[0][y-1] + map[0][y]
+
+  # go across the first row 1 1 1     
+  for x in range(1, rows-1): # 1 
+    copy_map[x][0] = map[x-1][0] + map[x][0]    
+
+  for x in range(1, rows-1):
+    for y in range(1, cols-1):
+      
+        copy_map[x][y] = map[x][y]  + min(copy_map[x-1][y], copy_map[x][y-1]) 
+      
+    return copy_map[rows - 1][cols - 1]
+
+//        [1, 3, 4],
+//        [2, 52, 54],
+//        [5, 9, 14]  
