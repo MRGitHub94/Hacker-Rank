@@ -1,1 +1,1 @@
-## Hacker-Rank problems stored for future reference and review
+## HackerRank, Pramp, and Firecode.io problems stored for future reference and review
