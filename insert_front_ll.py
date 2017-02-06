@@ -54,12 +54,40 @@ class SinglyLinkedList(object):
         new_node.setNext(self.head)
         self.setHead(new_node)
 
-    def reverse(self):
-        last = None
-        current = self.head
-        while current is not None:
-            next = current.getNext()
-            current.setNext(last)
-            last = current
-            current = next 
-        self.head = last
+def reverse(self):
+    last = None
+    current = self.head
+    while current is not None:
+        next = current.getNext()
+        current.setNext(last)
+        last = current
+        current = next 
+    self.head = last
+
+class SinglyLinkedList:
+    #constructor
+    def __init__(self):
+        self.head = None
+        
+    #method for setting the head of the Linked List
+    def setHead(self,head):
+        self.head = head
+                     
+    #method for inserting a new node at the end of a Linked List   
+    def insertAtEnd(self,data):
+        # initialize Node instance
+        newNode = Node()
+        # set new node's data
+        newNode.setData(data)
+
+        # if there is no node set the head
+        if self.head == None:
+            self.head = newNode
+        else:
+            # instantiate current
+            current = self.head
+            # set while loop while the LL hasn't reached the end
+            while current.getNext() != None:
+                current = current.getNext()
+            # once you reach the last node set the next one to be the newNode
+            current.setNext(newNode)

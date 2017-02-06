@@ -7,4 +7,9 @@ def push_first(lst):
 
 print push_first([0,2,3])
 
-def move_last(lst): 
+def find_len_last_word(string):
+     list_of_words = string.split(" ")
+     print list_of_words
+     return len(list_of_words[-1])
+
+print find_len_last_word("There are some things")
