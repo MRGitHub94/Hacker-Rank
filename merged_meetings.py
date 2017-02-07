@@ -43,13 +43,22 @@ def merge_ranges(meetings):
         i = 1
         # run this through the entire list and then break out of the while loop
         while i < len(input_range_list):
+            # set current to the current index in the parameter list
             current = input_range_list[i]
+            # see if there is overlap
             if previous.upper_bound >= current.lower_bound:
+                # use the range class to add to the merged 
                 merged = Range(previous.lower_bound, max(previous.upper_bound, current.upper_bound))
+                # previous becomes merged
                 previous = merged
             else:
+                # add previous to the output_list if there's no overlap
                 output_list.append(previous)
+                # previous becomes current
                 previous = current
+            # increment i     
             i += 1
+        # add previous to output list
         output_list.append(previous)
+        # return the output list
         return output_list
