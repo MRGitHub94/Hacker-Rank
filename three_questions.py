@@ -60,20 +60,43 @@ print count_number_repeats([1,1,2,2,2,3])
                         xxx
                         x    # incomplete row
 """
-# def find_completed_rows(nums):
-#   # follow fib dynamic recursive answer
-#   # look up number of coins and the value is how many levels can be completed
-#   dicti = {1:1, 3:2, 6:3, 10:4, 15:5, 21:6, 28:7}
-#   ouput = []
-#   for n in nums:
-#     # check if the number translates to exact number of levels completed
-#     if dicti.get(n):
-#       return dicti[n]
-#     # check to see if the number is captured within the scope of the dictionary
-#     elif n = dicti[n]:
-#       return 
+
+# Triangular number
+# Hence every triangular number is either divisible by three or has a remainder 
+# of 1 when divided by nine:
+
+  # follow fib dynamic recursive answer
+  # look up number of coins and the value is how many levels can be completed
+  # dicti = {1:1, 3:2, 6:3, 10:4, 15:5, 21:6, 28:7}
+  # ouput = []
+  # for n in nums:
+  #   # check if the number translates to exact number of levels completed (triangular number)
+  #   if (n % 3 == 0) or (n % 9 == 1):
+  #     if dicti.get(n):
+  #       output.append(dicti[n])
+  #     else:
+  #       for keys in dicti.keys():
+  #         highest_existing_key = max(keys)
+  #         # keep adding entries to the dict until the key is equal to the n
+  #         while highest_existing_key < n:
+
+  #         # add in the dictionary the key, value for this new triangular entry
+  #   else:
+  #     # find the key that is closest to n and return its value
+
+def find_completed_rows(nums):
+  output = []
+  for n in nums:
+    if n < factorial(n):
+
+  
+def factorial(n):
+  if n < 1:
+    return 1
+  return n * factorial(n-1)
 
 
+print find_completed_rows([2, 5, 8])
 
 """Q3. Given a string of chars, return unique, sorted combinations.
 
