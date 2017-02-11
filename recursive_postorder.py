@@ -26,3 +26,10 @@ class BinaryTree:
 
     def get_root_val(self):
         return self.data
+
+    def preorder(self):
+        pre_ordered_list.append(self.get_root_val())
+        if self.get_left_child():
+            self.get_left_child().preorder()
+        if self.get_right_child():
+            self.get_right_child().preorder()

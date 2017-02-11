@@ -13,13 +13,6 @@
 #!/bin/python
 
 import sys
-
-
-n = int(raw_input().strip())
-types = map(int, raw_input().strip().split(' '))
-
-
-import sys
 from collections import Counter
 import operator
 
@@ -32,3 +25,13 @@ sorted_values = sorted(types_dict.items(), key=operator.itemgetter(1))
 
 print sorted_values[-1][0] 
 
+def find_max_value(types):
+    types = Counter(types)
+    sorted_values = sorted(types.items(), key=operator.itemgetter(1))
+    max_value = sorted_values[-1][1] 
+    keys_list = []
+    for keys, values in types.items():
+        if max_value == values:
+             keys_list.append(keys)
+    sorted_keys = sorted(keys_list)
+    return sorted_keys[0]
