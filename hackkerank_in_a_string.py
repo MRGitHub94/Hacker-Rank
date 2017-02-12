@@ -24,11 +24,14 @@ for a0 in xrange(q):
     # your code goes here
     h = "hackerrank"
     def match(s, h):
+        # j keeps track of the length of the substring in the string
         i, j = 0, 0
         while i < len(s) and j < len(h):
             if s[i] == h[j]:
                 j += 1
             i += 1
+        # if j isnt the same length as hackerrank then we havent found the 
+        # complete word
         if j == len(h):
             return "YES"
         else:
