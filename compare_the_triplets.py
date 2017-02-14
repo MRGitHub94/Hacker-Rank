@@ -21,8 +21,9 @@ print Ascore, Bscore
 
 alice, bob = 0, 0
 for a,b in zip(A,B):
-    if a>b:
+    if a > b:
         alice += 1
-    elif b>a: 
+    elif b > a: 
         bob += 1
-print (alice, bob)
+
+return (alice, bob)
