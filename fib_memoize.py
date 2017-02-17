@@ -1,4 +1,4 @@
-fib_table = {1:1, 2:1}
+fib_table = {0:0, 1:1, 2:1}
 def fib(n):
     if n <= 2:
         return 1
