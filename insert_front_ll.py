@@ -55,15 +55,31 @@ class SinglyLinkedList(object):
         self.setHead(new_node)
 
 def reverse(self):
+    # set up last variable
     last = None
+    # set up current to start at the head
     current = self.head
+    # make sure you aren't at the tail 
     while current is not None:
+        # set up next to be the next node
         next = current.getNext()
+        # use set last to change the reference
         current.setNext(last)
+        # set up last to be the current node
         last = current
+        # current moves to the next
         current = next 
+    # return self.head as the last
     self.head = last
 
+def reverse(self):
+        current = None
+        next = self.head
+        while next:
+            next, current, prev = next.getNext(), next, current
+            current.setNext(prev)
+
+        self.setHead(current)
 class SinglyLinkedList:
     #constructor
     def __init__(self):

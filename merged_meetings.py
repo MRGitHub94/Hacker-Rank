@@ -20,6 +20,17 @@ def merge_ranges(meetings):
             merged_meetings.append([current_meeting_start, current_meeting_end])
     # return the entire merged meetings list
     return merged_meetings
+    
+def merge_ranges(input_range_list):
+    overlap = input_range_list[0]
+    print overlap
+    # last_end = overlap[-1]
+    for current_start, current_end in enumerate(input_range_list[1:]):
+        if last_end <= current_start:
+            last_end = current_end
+        else:
+            overlap.append([current_start, current_end])
+    return overlap
 
 # Firecode similar question
     class Range(object):

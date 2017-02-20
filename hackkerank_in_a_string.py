@@ -37,3 +37,21 @@ for a0 in xrange(q):
         else:
             return "NO"
     print match(s, h)
+
+
+def count_substring(string, sub_string):
+    # initialize a counter at 0
+    counter = 0
+    # determine the length of the sub_string you're hoping to find
+    sub_len = len(sub_string)
+    # go through the length of the string
+    for i in range(0, len(string)):
+        # if the letter matches the first letter in the substring
+        if string[i] == sub_string[0]:
+            # go from the current position until the end of the sub_string if 
+            # it's in the exact order
+            if string[i:(i + sub_len)] == sub_string:
+                # increase counter
+                counter = counter + 1
+    # return counter's value
+    return counter
