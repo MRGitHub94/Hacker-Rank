@@ -107,3 +107,28 @@ class SinglyLinkedList:
                 current = current.getNext()
             # once you reach the last node set the next one to be the newNode
             current.setNext(newNode)
+
+    def delete(self, data):
+        # set two pointers both set at the head of the LL
+        current = self.head
+        previous = self.head
+        # if there isnt a LL return None
+        if self.head == None:
+            return None
+        else:
+            # if the head is the data
+            if self.head.getData() == data:
+                # set the head to be the next node
+                self.head = self.head.getNext()
+            else:
+                # while loop which runs until the 
+                while (current.getData() != data):
+                    # set previous to the current node before moving current to
+                    # the next node
+                    previous = current
+                    current = current.getNext()
+                
+                if current.getData() == data:
+                    previous.setNext(current.getNext())
+                else:
+                    return None
