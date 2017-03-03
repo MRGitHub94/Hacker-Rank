@@ -1464,3 +1464,176 @@ module.exports = AttentionGrabber;
 //==============================================================================
 // Container Components From Presentational Components
 
+// If a component has to have state, make calculations based on props, or 
+// manage any other complex logic, then that component shouldnt also have to 
+// render HTML-like JSX
+
+// separates your business logic from your presentational logic 
+
+// A presentational component will always get rendered by a container component
+// Any component that gets rendered by a different component should use 
+// module.exports
+
+// GuineaPigs.js 
+// Presentational component that will always get rendered by a container 
+// component
+var React = require('react');
+
+// the presentational component will only have a render function without any 
+// other properties
+var GuineaPigs = React.createClass({
+  render: function () {
+    var src = this.props.src;
+    return (
+      <div>
+        <h1>Cute Guinea Pigs</h1>
+        <img src={src} />
+      </div>
+    );
+  }
+});
+
+module.exports = GuineaPigs;
+
+// GuineaPigsContainer.js
+var React = require('react');
+var ReactDOM = require('react-dom');
+// navigate up one level and then down into the components folder where 
+// GuineaPigs.js is 
+var GuineaPigs = require('../components/GuineaPigs');
+
+var GUINEAPATHS = [
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-2.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-3.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
+];
+
+var GuineaPigsContainer = React.createClass({
+  getInitialState: function () {
+    return { currentGP: 0 };
+  },
+
+  nextGP: function () {
+    var current = this.state.currentGP;
+    var next = ++current % GUINEAPATHS.length;
+    this.setState({ currentGP: next });
+  },
+
+  interval: null,
+
+  componentDidMount: function () {
+    this.interval = setInterval(this.nextGP, 5000);
+  },
+
+  componentWillUnmount: function () {
+    clearInterval(this.interval);
+  },
+
+  render: function () {
+    var src = GUINEAPATHS[this.state.currentGP];
+    // pass that guinea pig to the presentational component
+    return <GuineaPigs src={src} />;
+  }
+});
+
+ReactDOM.render(
+  <GuineaPigsContainer />, 
+  document.getElementById('app')
+);
+
+//==============================================================================
+// Stateless Functional Components
+
+// A component class written as a function is called a stateless functional 
+// component
+
+// A component class written in the usual way:
+var MyComponentClass = React.createClass({
+  render: function(){
+    return <h1>Hello world</h1>;
+  }
+});
+
+// The same component class, written as a stateless functional component:
+function MyComponentClass () {
+  return <h1>Hello world</h1>;
+}
+
+// Works the same either way:
+ReactDOM.render(
+    <MyComponentClass />,
+    document.getElementById('app')
+);
+
+// Another example
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+// stateless functional component
+function Friend() {
+    return <img src='https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-octopus.jpg' />;
+}
+
+ReactDOM.render(
+    <Friend />,
+    document.getElementById('app')
+);
+
+// Stateless Functional Components and Props
+// To access props, give your stateless functional component a parameter
+
+// Normal way to display a prop:
+var MyComponentClass = React.createClass({
+  render: function () {
+    return <h1>{this.props.title}</h1>;
+  }
+});
+
+// Stateless functional component way to display a prop:
+function MyComponentClass (props) {
+  return <h1>{props.title}</h1>;
+}
+
+// Normal way to display a prop using a variable:
+var MyComponentClass = React.createClass({
+  render: function () {
+    var title = this.props.title;
+    return <h1>{title}</h1>;
+  }
+});
+
+// Stateless functional component way to display a prop using a variable:
+function MyComponentClass (props) {
+    var title = props.title;
+  return <h1>{title}</h1>;
+}
+
+// Another example
+var React = require('react');
+
+function GuineaPigs (props) {
+  var src = props.src;
+  // need parantheses around the multiline JSX
+  return (
+    <div>
+      <h1>Cute Guinea Pigs</h1>
+      // this is the variable for props.src
+      <img src={src} />
+    </div>
+  );
+}
+
+module.exports = GuineaPigs;
+
+//==============================================================================
+// Prototypes
+
+//==============================================================================
+// React Forms
+
+//==============================================================================
+// Mounting Lifecycle Methods
+
+//==============================================================================
+// Updating/Unmounting Lifecyle Methods
