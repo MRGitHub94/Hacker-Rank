@@ -1627,13 +1627,883 @@ function GuineaPigs (props) {
 module.exports = GuineaPigs;
 
 //==============================================================================
-// Prototypes
+// propTypes
 
+// propTypes are useful for two reasons:
+// prop validation: ensures your props are doing what they're supposed to be 
+// doing.
+// documentation: makes it easier to glance at a file and quickly understand the 
+// component class inside  
+
+// If a component class expects a prop, then you can give that component class a
+// propType
+
+var React = require('react');
+
+var MessageDisplayer = React.createClass({
+  // This propTypes object should have
+  // one property for each expected prop:
+  propTypes: {
+    message: React.PropTypes.string
+  },
+
+  render: function () {
+    // this is only expecting one message
+    return <h1>{this.props.message}</h1>;
+  }
+});
+
+// The name of each propTypes should be the name of an expected prop
+var React = require('react');
+
+var Runner = React.createClass({
+  propTypes: {
+    message:   React.PropTypes.string.isRequired,
+    style:     React.PropTypes.object.isRequired,
+    isMetric:  React.PropTypes.bool.isRequired,
+    miles:     React.PropTypes.number.isRequired,
+    milesToKM: React.PropTypes.func.isRequired,
+    races:     React.PropTypes.array.isRequired
+  },
+
+  render: function () {
+    var miles = this.props.miles;
+    var km = this.props.milesToKM(miles);
+    var races = this.props.races.map(function(race, i){
+      return <li key={race + i}>{race}</li>;
+    });
+
+    return (
+      <div style={this.props.style}>
+        <h1>{this.props.message}</h1>
+        { this.props.isMetric && 
+          <h2>One Time I Ran {km} Kilometers!</h2> }
+        { !this.props.isMetric && 
+          <h2>One Time I Ran {miles} Miles!</h2> }
+        <h3>Races I've Run</h3>
+        <ul id="races">{races}</ul>
+      </div>
+    );
+  }
+});
+
+// Another example
+// BestSeller.js
+var React = require('react');
+
+var BestSeller = React.createClass({
+  
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    author: React.PropTypes.string.isRequired,
+    weeksOnList: React.PropTypes.number.isRequired,
+  },
+  
+  render: function () {
+    return (
+      <li>
+        Title: <span>
+          {this.props.title}
+        </span><br />
+        
+        Author: <span>
+          {this.props.author}
+        </span><br />
+        
+        Weeks: <span>
+          {this.props.weeksOnList}
+        </span>
+      </li>
+    );
+  }
+});
+
+module.exports = BestSeller;
+
+// BookList.js
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+var BestSeller = require('./BestSeller');
+
+var BookList = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <h1>Best Sellers</h1>
+        <div>
+          <ol>
+            <BestSeller 
+              title="Glory and War Stuff for Dads" 
+              author="Sir Eldrich Van Hoorsgaard" 
+              weeksOnList={10} />
+            <BestSeller 
+              title="The Crime Criminals!" 
+              author="Brenda Sqrentun" 
+              weeksOnList={2} />
+            <BestSeller
+              title="Subprime Lending For Punk Rockers" 
+              author="Malcolm McLaren" 
+              weeksOnList={600} />
+          </ol>
+        </div>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+    <BookList />,
+    document.getElementById('app')
+);
+
+// Stateless functional components don't have instructions objects
+// To write propTypes for a statelss fucntional component, you define a 
+// propTypes object, as a property of the statelss functioinal component itself
+
+function Example (props) {
+  return <h1>{props.message}</h1>;
+}
+
+Example.propTypes = {
+  message: React.PropTypes.string.isRequired
+};
+
+// Another example
+// GuineaPigs.js
+var React = require('react');
+
+function GuineaPigs (props) {
+  var src = props.src;
+  return (
+    <div>
+      <h1>Cute Guinea Pigs</h1>
+      <img src={src} />
+    </div>
+  );
+}
+GuineaPigs.propTypes = {
+  src: React.PropTypes.string.isRequired
+};
+
+module.exports = GuineaPigs;
+
+// GuineaPigsContainer.js
+var React = require('react');
+var ReactDOM = require('react-dom');
+var GuineaPigs = require('../components/GuineaPigs');
+
+var GUINEAPATHS = [
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-1.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-2.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-3.jpg',
+  'https://s3.amazonaws.com/codecademy-content/courses/React/react_photo-guineapig-4.jpg'
+];
+
+var GuineaPigsContainer = React.createClass({
+  getInitialState: function () {
+    return { currentGP: 0 };
+  },
+
+  nextGP: function () {
+    var current = this.state.currentGP;
+    var next = ++current % GUINEAPATHS.length;
+    this.setState({ currentGP: next });
+  },
+
+  interval: null,
+
+  componentDidMount: function () {
+    this.interval = setInterval(this.nextGP, 5000);
+  },
+
+  componentWillUnmount: function () {
+    clearInterval(this.interval);
+  },
+
+  render: function () {
+    var src = GUINEAPATHS[this.state.currentGP];
+    return <GuineaPigs src={src} />;
+  }
+});
+
+ReactDOM.render(
+  <GuineaPigsContainer />, 
+  document.getElementById('app')
+);
 //==============================================================================
 // React Forms
+
+// In a React form, you want the server to know about every new character or 
+// deletion, as soon as it happens. That way, your screen will always be in sync
+// with the rest of your application
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var Input = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <input type="text" onChange={this.handleUserInput}/>
+        <h1>I am an h1.</h1>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <Input />,
+  document.getElementById('app')
+);
+
+// You will define a functiont hat gets called whenever a users enters or 
+// deletes a character. The function will be an event handler and listen for 
+// change events. 
+
+var React = require('react');
+
+var Example = React.createClass({
+  getInitialState: function () {
+    return { userInput: '' };
+  },
+  // event handler
+  handleChange: function (e) {
+    this.setState({
+      userInput: e.target.value
+    });
+  },
+
+  render: function () {
+    return (
+      <input 
+        onChange={this.handleChange} 
+        type="text" />
+    );
+  }
+});
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var Input = React.createClass({
+  getInitialState: function() {
+    return { userInput: '' };
+  },
+  handleUserInput: function(e) {
+    this.setState ({
+      userInput: e.target.value
+    });
+  },
+  
+  render: function () {
+    return (
+      <div>
+        <input type="text" onChange={this.handleUserInput} value={this.state.userInput}/>
+        // this will display the text that the user puts in the form!
+        <h1>{this.state.userInput}</h1>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <Input />,
+  document.getElementById('app')
+);
+
+// Two terms that will probably come up when you talk about React forms
+// 1. Controlled component: a component that does not maintain any internal 
+// state. If you ask it for information about itself, then it will have to get 
+// that information through props. Most React components are controlled. 
+// 2. Uncontrolled component: a component that maintains its own internal state,
+// such a <input /> that keeps track of its own text. When you give <input /> a
+// value it becomes controlled
+
+// No submit button 
+// the form was just an <input /> 
 
 //==============================================================================
 // Mounting Lifecycle Methods
 
+// Lifecycle methods are methods that get called at certain moments in a 
+// component's life. 
+
+// You can attach lifecycle methods to a lot of different moments in a 
+// component's life 
+
+// Three categories of lifecycle methods:
+// 1. Mounting: a component mounts when it renders for the first time
+// three mounting life cycle methods: 
+// componentWillMount, render, componentDidMount
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var Example = React.createClass({
+  // first mounting lifecycle method 
+  componentWillMount: function () {
+    alert('component is about to mount!');
+  },
+  // then render is called 
+  render: function () {
+    return <h1>Hello world</h1>;
+  }
+});
+
+ReactDOM.render(
+  // mounting period begins
+  <Example />,
+  document.getElementById('app')
+);
+
+setTimeout(function(){
+  // this is rendered third 
+  ReactDOM.render(
+    <Example />,
+    document.getElementById('app')
+  );
+}, 2000);
+
+// If you need to do something onlyl the first time that component renders, then
+// its probably a job for a mounting lifecyle method
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var Flashy = React.createClass({
+  componentWillMount: function() { 
+    // this is only displayed once in the beginning   
+    alert('AND NOW, FOR THE FIRST TIME EVER...  FLASHY!!!!');},
+  
+  render: function () {
+
+    alert('Flashy is rendering!');
+    
+    return (
+      <h1 style={{ color: this.props.color }}>
+        OOH LA LA LOOK AT ME I AM THE FLASHIEST
+      </h1>
+    );
+  }
+});
+
+ReactDOM.render(
+  <Flashy color='red' />,
+  document.getElementById('app')
+);
+
+
+setTimeout(function () {
+  ReactDOM.render(
+    <Flashy color='green' />,
+    document.getElementById('app')
+  );
+}, 2000);
+
+// render is a mounting lifecycle method
+
+// componentDidMount is the final mounting lifecycle method
+// gets called right after the HTML from render has finished loading 
+// the place to make an AJAX call
+// good place to connect React app to external applications 
+// also good for set timers using setTimeout or setInterval
+var React = require('react');
+
+var Example = React.createClass({
+  componentDidlMount: function () {
+    alert('component just finished mounting!');
+  },
+
+  render: function () {
+    return <h1>Hello world</h1>;
+  }
+});
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var Flashy = React.createClass({
+  componentWillMount: function () {
+    alert('AND NOW, FOR THE FIRST TIME EVER...  FLASHY!!!!');
+  },
+  componentDidMount: function() {
+    alert('YOU JUST WITNESSED THE DEBUT OF...  FLASHY!!!!!!!');
+  },
+  render: function () {
+
+    alert('Flashy is rendering!');
+    
+    return (
+      <h1 style={{ color: this.props.color }}>
+        OOH LA LA LOOK AT ME I AM THE FLASHIEST
+      </h1>
+    );
+  }
+});
+
+ReactDOM.render(
+  <Flashy color='red' />,
+  document.getElementById('app')
+);
+
+setTimeout(function () {
+  ReactDOM.render(
+    <Flashy color='green' />,
+    document.getElementById('app')
+  );
+}, 2000);
+
+// 2. Updating
+// 3. Unmounting
+
 //==============================================================================
 // Updating/Unmounting Lifecyle Methods
+
+// Updating Lifecyle Methods
+// componentWillReceiveProps gets called before the rendering begins
+// Only gets called if the component will receive props
+// componentWillReceiveProps will get called here
+ReactDOM.render(
+  <Example prop="myVal" />,
+  document.getElementById('app')
+);
+
+// but not here
+ReactDOM.render(
+  <Example />,
+  document.getElementById('app')
+);
+
+// Example.js
+var React = require('react');
+
+var Example = React.createClass({
+  componentWillReceiveProps: function (nextProps) {
+    alert("Check out the new props.text that "
+      + "I'm about to get:  " + nextProps.text);
+  },
+
+  render: function () {
+    return <h1>{this.props.text}</h1>;
+  }
+});
+
+
+// The first render won't trigger
+// componentWillReceiveProps:
+ReactDOM.render(
+  <Example text="Hello world" />,
+  document.getElementById('app')
+);
+
+// After the first render, 
+// subsequent renders will trigger
+// componentWillReceiveProps:
+setTimeout(function () {
+  ReactDOM.render(
+    <Example text="Hello world" />,
+    document.getElementById('app')
+  );
+}, 1000);
+
+// Top Number example
+var React = require('react');
+var ReactDOM = require('react-dom');
+var yellow = 'rgb(255, 215, 18)';
+
+var TopNumber = React.createClass({
+  propTypes: {
+    number: React.PropTypes.number,
+    game: React.PropTypes.bool
+  },
+
+  getInitialState: function () {
+    return { 'highest': 0 };
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    // compares the current number to the highest before render does
+    if (nextProps.number > this.state.highest) {
+      this.state.highest = nextProps.number;
+    }
+  },
+  
+  render: function () {
+    return (
+      <h1>
+        Top Number: {this.state.highest}
+      </h1>
+    );
+  }
+});
+
+module.exports = TopNumber;
+
+// The second updating lifecycle method is called shouldComponentUpdate
+// gets called after componentWillReceiveProps but before rendering begins
+// returns a boolean
+
+var React = require('react');
+
+var Example = React.createClass({
+  getInitialState: function () {
+    return { subtext: 'Put me in an <h2> please.' };
+  },
+
+  shouldComponentUpdate: function (nextProps, nextState) {
+    if ((this.props.text == nextProps.text) && 
+      (this.state.subtext == nextState.subtext)) {
+      alert("Props and state haven't changed, so I'm not gonna update!");
+      return false;
+    } else {
+      alert("Okay fine I will update.")
+      return true;
+    }
+  },
+
+  render: function () {
+    return (
+      <div>
+        <h1>{this.props.text}</h1>
+        <h2>{this.state.subtext}</h2>
+      </div>
+    );
+  }
+});
+
+// Another example
+var React = require('react');
+var random = require('./helpers').random;
+
+var Target = React.createClass({
+  propTypes: {
+    number: React.PropTypes.number.isRequired
+  },
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return this.props.number != nextProps.number;
+  },
+  render: function () {
+    var visibility = this.props.number
+      ? 'visible' : 'hidden';
+    var style = {
+      position: 'absolute',
+      left: random(100) + '%',
+      top:  random(100) + '%',
+      fontSize: 40,
+      cursor: 'pointer',
+      visibility: visibility
+    };
+
+    return (
+      <span 
+        style={style} 
+        className="target" >
+        {this.props.number}
+      </span>
+    )
+  }
+});
+
+module.exports = Target;
+
+// The third updating lifecycle method is componentWillUpdate
+// gets called in between shouldComponentUpdate and render
+var React = require('react');
+
+var Example = React.createClass({
+  componentWillUpdate: function (nextProps, nextState) {
+    alert('Component is about to update!  Any second now!');
+  },
+
+  render: function () {
+    return <h1>Hello world</h1>;
+  }
+});
+
+// cannot call this.setState from the body of componentWillUpdate
+var React = require('react');
+var ReactDOM = require('react-dom');
+var yellow = 'rgb(255, 215, 18)';
+
+var TopNumber = React.createClass({
+  propTypes: {
+    number: React.PropTypes.number,
+    game: React.PropTypes.bool
+  },
+
+  getInitialState: function () {
+    return { 'highest': 0 };
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    if (nextProps.number > this.state.highest) {
+      this.setState({
+        highest: nextProps.number
+      });
+    } else if (!this.props.game) {
+      this.setState({
+        highest: 0
+      });
+    }
+  },
+  componentWillUpdate: function(nextProps, nextState) {
+    // check whether the background is yellow already 
+  if (document.body.style.background != yellow 
+  && this.state.highest >= 950*1000) {
+  document.body.style.background = yellow;
+} else if (!this.props.game 
+  && nextProps.game) {
+  document.body.style.background = 'white';
+}
+  },
+  render: function () {
+    return (
+      <h1>
+        Top Number: {this.state.highest}
+      </h1>
+    );
+  }
+});
+
+module.exports = TopNumber;
+
+// The last updating lifecycle methos is componentDidUpdate
+// gets called after any rendering HTML has finished loading
+
+var React = require('react');
+
+var Example = React.createClass({
+  componentDidUpdate: function (prevProps, prevState) {
+    alert('Component is done rendering!');
+  },
+
+  render: function () {
+    return <h1>Hello world</h1>;
+  }
+});
+
+// Another example with Top Number
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TopNumber = require('./TopNumber');
+var Display = require('./Display');
+var Target = require('./Target');
+var random = require('./helpers').random;
+var clone = require('./helpers').clone;
+
+var fieldStyle = {
+  position: 'absolute',
+  width:  250,
+  bottom: 60,
+  left:   10,
+  height: '60%',
+};
+
+var App = React.createClass({
+  getInitialState: function () {
+    return {
+      game:    false,
+      targets: {},
+      latestClick: 0
+    };
+  },
+
+  intervals: null,
+
+  createTarget: function (key, ms) {
+    ms = ms || random(500, 2000);
+    this.intervals.push(setInterval(function(){
+      var targets = clone(this.state.targets);
+      var num = random(1, 1000*1000);
+      targets[key] = targets[key] != 0 ? 0 : num;
+      this.setState({ targets: targets });
+    }.bind(this), ms));
+  },
+
+  hitTarget: function (e) {
+    if (e.target.className != 'target') return;
+    var num = parseInt(e.target.innerText);
+    for (var target in this.state.targets) {
+      var key = Math.random().toFixed(4);
+      this.createTarget(key);
+    }
+    this.setState({ latestClick: num });
+  },
+
+  startGame: function () {
+    this.createTarget('first', 750);
+    this.setState({
+      game: true
+    });
+  },
+
+  endGame: function () {
+    this.intervals.forEach(function(int){
+      clearInterval(int);
+    });
+    this.intervals = [];
+    this.setState({
+      game:    false,
+      targets: {},
+      latestClick: 0
+    });
+  },
+
+  componentWillMount: function() {
+    this.intervals = [];
+  },
+  componentDidUpdate: function (prevProps, prevState) {
+  if (this.state.latestClick < prevState.latestClick) {
+    this.endGame();
+  }
+},
+  render: function () {
+    var buttonStyle = {
+      display: this.state.game ? 'none' : 'inline-block'
+    };
+    var targets = [];
+    for (var key in this.state.targets) {
+      targets.push(
+        <Target 
+          number={this.state.targets[key]} 
+          key={key} />
+      );
+    }
+    return (
+      <div>
+        <TopNumber 
+          number={this.state.latestClick} 
+          game={this.state.game} />
+        <Display number={this.state.latestClick} />
+        <button 
+          onClick={this.startGame} 
+          style={buttonStyle}>
+          New Game 
+        </button>
+        <div 
+          style={fieldStyle} 
+          onClick={this.hitTarget} >
+          {targets}
+        </div>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <App />, 
+  document.getElementById('app')
+);
+
+// A component's unmounting period occurs when the component is removed from 
+// the DOM. It only has the lifecycle method of componentWillUnmount
+// componentWillUnmount gets called right before a component is removed from
+// the DOM. 
+
+var React = require('react');
+
+var Example = React.createClass({
+  componentWillUnmount: function () {
+    alert('Goodbye world');
+  },
+
+  render: function () {
+    return <h1>Hello world</h1>;
+  }
+});
+
+// Enthused.js
+var React = require('react');
+
+var Enthused = React.createClass({
+  interval: null,
+
+  componentDidMount: function () {
+    this.interval = setInterval(function(){
+      this.props.addText('!');
+    }.bind(this), 15);
+  },
+  componentWillUnmount: function(prevProps, prevState) {
+    clearInterval(this.interval);
+  },
+  render: function () {
+    return (
+      <button onClick={this.props.toggle}>
+        Stop!
+      </button>
+    );
+  }
+});
+
+module.exports = Enthused;
+
+// App.js
+var React = require('react');
+var ReactDOM = require('react-dom');
+var Enthused = require('./Enthused');
+
+var App = React.createClass({
+  getInitialState: function () {
+    return {
+      enthused: false,
+      text: ''
+    };
+  },
+
+  toggleEnthusiasm: function () {
+    this.setState({
+      enthused: !this.state.enthused
+    });
+  },
+
+  setText: function (text) {
+    this.setState({ text: text });
+  },
+
+  addText: function (newText) {
+    var text = this.state.text + newText;
+    this.setState({ text: text });
+  },
+
+  handleChange: function (e) {
+    this.setText(e.target.value);
+  },
+
+  render: function () {
+    var button;
+    if (this.state.enthused) {
+      button = (
+        <Enthused 
+          toggle={this.toggleEnthusiasm}
+          addText={this.addText} />
+      );
+    } else {
+      button = (
+        <button 
+          onClick={this.toggleEnthusiasm}>
+          Add Enthusiasm!
+        </button>
+      );
+    }
+
+    return (
+      <div>
+        <h1>Auto-Enthusiasm</h1>
+        <textarea 
+          rows="7"
+          cols="40"
+          value={this.state.text}
+          onChange={this.handleChange}>
+        </textarea>
+        {button}
+        <h2>{this.state.text}</h2>
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <App />, 
+  document.getElementById('app')
+);
+
